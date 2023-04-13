@@ -1,0 +1,60 @@
+<mvc:View controllerName="uk.co.brakes.rf.reprintlabelui.controller.ToList" xmlns:ndc="sap.ndc" xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" displayBlock="true" xmlns="sap.m">
+    <Page id="page" title="{i18n>title}">
+        <content>
+            <VBox backgroundDesign="Solid" class="sapUiTinyMargin">
+                <HBox alignItems="Center">
+                    <!--<ObjectIdentifier title="PRINTER 01" class="sapUiTinyMargin" titleActive="false" /> -->
+                    <!-- <ObjectIdentifier title="Connected to :" class="sapUiTinyMargin" /> -->
+                    <Label text="Connected to " required="true" class="sapUiTinyMargin sapUiTinyMarginEnd boldText"/> 
+                    <Input id="scanPrinter" placeholder="Scan or enter printer" submit="onScanPrinter" value="" class="sapUiTinyMargin"/>
+                    <core:Icon src="sap-icon://print" class="sapUiTinyMargin" />
+                </HBox>
+            </VBox>
+            <ScrollContainer fitContainer="true" height="85%" vertical="true">
+                <!--<List id="openToList" headerText="Open Transfer Order Items (5)" includeItemInSelection="true" backgroundDesign="Solid" sticky="HeaderToolbar"> -->
+                <List id="openToList" class="toList" headerText="Open Transfer Order Items" includeItemInSelection="true" backgroundDesign="Solid" items="{path: 'openToModel>/'}">
+                    <items>
+                        <CustomListItem class="sapUiTinyMargin" type="Active" press="onPressTo">
+                            <VBox>
+                                <HBox class="sapUiTinyMargin">
+                                    <VBox width="60%">
+                                        <ObjectIdentifier title="{openToModel>TONumber}/{openToModel>TOItem}" text="{path: 'openToModel>ExpQty', formatter:'.removeDecimal'} {openToModel>ExpUom}" titleActive="false"/>
+                                    </VBox>
+                                    <VBox width="40%">
+                                        <ObjectAttribute text="{openToModel>UserName}" />
+                                        <ObjectAttribute class="sapUiTinyMarginTop" text="{path: 'openToModel>Date', formatter: '.formatDate'} {path: 'openToModel>Time', formatter: '.formatTime'}" />
+                                    </VBox>
+                                </HBox>
+
+                                <VBox class="sapUiTinyMargin">
+                                    <Text text="Material : {openToModel>MaterialNo} {openToModel>MaterialDesc}"/>
+                                    <Text text="Batch : {openToModel>Batch}" class="sapUiTinyMarginTop" />
+                                    <Text text="Destination Storage Bin : {openToModel>DestStrBin}" class="sapUiTinyMarginTop"/>
+                                </VBox>
+                            </VBox>
+                        </CustomListItem>
+                        <!-- <CustomListItem class="sapUiTinyMargin" type="Active" press="onPressTo">
+                            <VBox>
+                                <HBox class="sapUiTinyMargin">
+                                    <VBox width="60%">
+                                        <ObjectIdentifier title="1237/0001" text="22 CS" titleActive="false" width="50%" />
+                                    </VBox>
+                                    <VBox width="40%">
+                                        <ObjectAttribute text="KAREN SCOTT" />
+                                        <ObjectAttribute class="sapUiTinyMarginTop" text="01-01-2023 1.42 PM" />
+                                    </VBox>
+                                </HBox>
+
+                                <VBox class="sapUiTinyMargin">
+                                    <Text text="Material : 8805 Brakes Instant Coffee"/>
+                                    <Text text="Batch : RFTEST" class="sapUiTinyMarginTop"/>
+                                    <Text text="Destination Storage Bin : DD-AA-05" class="sapUiTinyMarginTop"/>
+                                </VBox>
+                            </VBox>
+                        </CustomListItem> -->
+                    </items>
+                </List>
+            </ScrollContainer>
+        </content>
+    </Page>
+</mvc:View>

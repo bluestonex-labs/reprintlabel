@@ -1,0 +1,69 @@
+<mvc:View controllerName="uk.co.brakes.rf.reprintlabelui.controller.View1" xmlns:mvc="sap.ui.core.mvc" xmlns:ndc="sap.ndc" xmlns:core="sap.ui.core" displayBlock="true" xmlns="sap.m">
+    <Page id="page" title="{i18n>title}">
+        <content>
+            <VBox>
+                <VBox class="sapUiTinyMargin">
+                    <Label text="Warehouse:" width="100%" />
+                    <ComboBox
+                        id="warehouseCombobox"
+                        width="100%"
+                        placeholder="Enter Warehouse"
+                        change="onSelectWarehouse"
+                        items="{
+                                            path: '/WarehouseSet',
+                                            sorter: { path: 'WarehouseNo' },
+                                            length : '500'
+                                        }"
+                    >
+                        <core:Item key="{WarehouseNo}" text="{WarehouseNo} - {Description}" />
+                    </ComboBox>
+                </VBox>
+                <!--<VBox class="sapUiTinyMargin">
+                    <Label text="Search by EAN:" width="100%" />
+                    <HBox width="100%">
+                        <Input id="eanFld" type="Text" placeholder="Enter EAN" width="20rem" />
+                        <ndc:BarcodeScannerButton id="scanEan" scanSuccess="onScanSuccess" scanFail="onScanError" inputLiveUpdate="onScanLiveupdate" />
+                    </HBox>
+                </VBox> -->
+                <VBox class="sapUiTinyMargin">
+                    <Label text="Search by:" width="100%" />
+                    <SegmentedButton id="searchSegmentedBtn" selectedKey="ean" width="100%" selectionChange="onSelectSegmentedBtn">
+                        <items>
+                            <SegmentedButtonItem text="EAN" key="ean" />
+                            <SegmentedButtonItem text="Material" key="material" />
+                            <SegmentedButtonItem text="User ID" key="userid" />
+                        </items>
+                    </SegmentedButton>
+                    <!--<Input class="sapUiTinyMarginTop" width="100%" liveChange="onChangeEan" placeholder="Scan EAN" submit="onScanEan" id="eanFld" visible="true" />
+                    <Input class="sapUiTinyMarginTop" width="100%" liveChange="onChangeMat" placeholder="Enter Material" submit="onSearchMaterial" id="matFld" visible="false" />
+                    <Input class="sapUiTinyMarginTop" width="100%" liveChange="onChangeUser" placeholder="Enter User ID" submit="onSearchUser" id="userIdFld" visible="false" /> -->
+
+                    <Input class="sapUiTinyMarginTop" width="100%" liveChange="onChangeSearchFld" placeholder="Scan EAN" submit="onSearchSubmit" id="searchToFld" visible="true" />
+                </VBox>
+                <!--<HBox justifyContent="Center" backgroundDesign="Solid" width="95%" class="printerClass">
+                    <HBox>
+                        <core:Icon src="sap-icon://print" class="sapUiSmallMargin" />
+                    </HBox>
+                    <VBox justifyContent="Center">
+                        <ObjectIdentifier title="Connected to : PRINTER 01" class="sapUiTinyMargin" titleActive="false" />
+                    </VBox>
+                </HBox> -->
+
+                <!--<VBox justifyContent="Center" alignItems="Center" backgroundDesign="Solid" width="95%" class="printerClass">
+                    <ObjectAttribute text="Connected to" /> 
+                    <HBox justifyContent="Center" width="100%">
+                        <core:Icon src="sap-icon://print" class="sapUiSmallMargin"/>
+                        <ObjectIdentifier title="PRINTER 01" class="sapUiTinyMargin" titleActive="false" /> 
+                        <Input id="scanPrinter" placeholder="Scan or enter printer" submit="onScanPrinter" width="18rem" value="PRINTER 01"/>
+
+                    </HBox>
+                </VBox> -->
+            </VBox>
+        </content>
+        <footer>
+            <Toolbar class="noLeftSpace">
+                <Button id="searchBtn" text="Search" width="100%" type="Emphasized" press="onSearchTo" enabled="true" />
+            </Toolbar>
+        </footer>
+    </Page>
+</mvc:View>
