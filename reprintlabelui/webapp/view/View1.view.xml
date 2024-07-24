@@ -1,7 +1,7 @@
 <mvc:View controllerName="uk.co.brakes.rf.reprintlabelui.controller.View1" xmlns:mvc="sap.ui.core.mvc" xmlns:ndc="sap.ndc" xmlns:core="sap.ui.core" displayBlock="true" xmlns="sap.m">
     <Page id="page" title="{i18n>title}">
         <content>
-            <VBox>
+            <VBox id="dataArea">
                 <VBox class="sapUiTinyMargin">
                     <Label text="Warehouse:" width="100%" />
                     <ComboBox

@@ -3,8 +3,7 @@
         <content>
             <VBox backgroundDesign="Solid" class="sapUiTinyMargin">
                 <HBox alignItems="Center">
-                    <!--<ObjectIdentifier title="PRINTER 01" class="sapUiTinyMargin" titleActive="false" /> -->
-                    <!-- <ObjectIdentifier title="Connected to :" class="sapUiTinyMargin" /> -->
+                   
                     <Label text="Connected to " required="true" class="sapUiTinyMargin sapUiTinyMarginEnd boldText"/> 
                     <Input id="scanPrinter" placeholder="Scan or enter printer" submit="onScanPrinter" value="" class="sapUiTinyMargin"/>
                     <core:Icon src="sap-icon://print" class="sapUiTinyMargin" />

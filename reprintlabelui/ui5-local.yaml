@@ -34,6 +34,10 @@ server:
             url: http://uk492-sapgw-dev.sysco.net:44300
             client: '010'
             destination: brakesgwpp
+          - path: /bsxprinterservices
+            url: https://bsx-tdd-tdd-brakesprinters-srv.cfapps.eu10.hana.ondemand.com
+            pathReplace: /
+            destination: bsxprinterservices 
     - name: sap-fe-mockserver
       beforeMiddleware: csp
       configuration:

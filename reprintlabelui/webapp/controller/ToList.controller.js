@@ -49,10 +49,12 @@ sap.ui.define([
                 /*scroll to top of the list on all navigations */
                 this.getView().byId("openToList").scrollToIndex(0);
 
-                this.showConnectedPrinter();
-                var printerFld = this.getView().byId("scanPrinter");
-                var printerId = printerFld.getValue();
-                if(!printerId){
+                var connectedPrinter = sap.ui.getCore().getModel('printerModel').getProperty("/macAddress");
+
+                // this.showConnectedPrinter();
+                // var printerFld = this.getView().byId("scanPrinter");
+                // var printerId = printerFld.getValue();
+                if(!connectedPrinter){
                     this.blockUnblockToList("BLOCK");
                     jQuery.sap.delayedCall(400, this, function () {
                         printerFld.focus();
@@ -177,22 +179,68 @@ sap.ui.define([
                 var sLgnum = oToItem.Warehouse;
                 var sTanum = oToItem.TONumber;
                 var sTapos = oToItem.TOItem;
-                var oPrinter = this.getView().byId("scanPrinter").getValue();
-                if (oPrinter !== "" && oPrinter !== undefined && oPrinter !== null) {
-                    MessageBox.confirm("Proceed with the reprinting of the label?", {
-                        onClose: function (sAction) {
-                            if (sAction === "OK") {
-                                BusyIndicator.show(500);
-                                that.fetchPrintData(sTanum, sTapos, sLgnum);
-                                //MessageToast.show("The label has been reprinted");
-                            } else if (sAction === "CANCEL") {
-                                MessageToast.show("The reprinting of the label has been cancelled");
-                            }
-                        }
-                    });
-                } else {
-                    MessageBox.error("The printer is not connected. Please connect to a printer before proceeding.");
+
+                var macAddress = sap.ui.getCore().getModel('printerModel').getProperty("/macAddress");
+
+                if (macAddress !== ""){
+                    if (top.ble){
+                        top.ble.isConnected(macAddress, function(message){
+                            var then = that;
+
+                            MessageBox.confirm("Proceed with the reprinting of the label?", {
+                                onClose: function (sAction) {
+                                    if (sAction === "OK") {
+                                        BusyIndicator.show(500);
+                                        then.fetchPrintData(sTanum, sTapos, sLgnum);
+                                        //MessageToast.show("The label has been reprinted");
+                                    } else if (sAction === "CANCEL") {
+                                        MessageToast.show("The reprinting of the label has been cancelled");
+                                    }
+                                }
+                            });
+
+                        }, function(oErr){
+
+                            top.ble.connect(macAddress, function(message){
+                                var then = that;
+                                MessageBox.confirm("Proceed with the reprinting of the label?", {
+                                    onClose: function (sAction) {
+                                        if (sAction === "OK") {
+                                            BusyIndicator.show(500);
+                                            then.fetchPrintData(sTanum, sTapos, sLgnum);
+                                            //MessageToast.show("The label has been reprinted");
+                                        } else if (sAction === "CANCEL") {
+                                            MessageToast.show("The reprinting of the label has been cancelled");
+                                        }
+                                    }
+                                });
+
+                            }, function(oErr){
+
+                                MessageBox.error("Unable to connect to printer, please visit connection app to connect.");
+                            })
+
+                            
+
+                        })
+                    }
                 }
+                // var oPrinter = this.getView().byId("scanPrinter").getValue();
+                // if (oPrinter !== "" && oPrinter !== undefined && oPrinter !== null) {
+                //     // MessageBox.confirm("Proceed with the reprinting of the label?", {
+                //     //     onClose: function (sAction) {
+                //     //         if (sAction === "OK") {
+                //     //             BusyIndicator.show(500);
+                //     //             that.fetchPrintData(sTanum, sTapos, sLgnum);
+                //     //             //MessageToast.show("The label has been reprinted");
+                //     //         } else if (sAction === "CANCEL") {
+                //     //             MessageToast.show("The reprinting of the label has been cancelled");
+                //     //         }
+                //     //     }
+                //     // });
+                // } else {
+                //     MessageBox.error("The printer is not connected. Please connect to a printer before proceeding.");
+                // }
             },
 
             fetchPrintData:function(sTanum, sTapos, sLgnum){

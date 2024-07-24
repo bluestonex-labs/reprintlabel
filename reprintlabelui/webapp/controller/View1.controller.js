@@ -36,6 +36,73 @@ sap.ui.define([
 
                 var whToModel = new JSONModel();
                 sap.ui.getCore().setModel(whToModel, "whToModel");
+
+                // var printerModel = new sap.ui.model.json.JSONModel({
+                //     macAddress: "",
+                //     deviceId: ""
+                // });
+                // sap.ui.getCore().setModel(printerModel, 'printerModel');
+
+                // this.onCheckForPrinter();
+            },
+
+            onCheckForPrinter: function(){
+                if (top.device){
+                    var deviceId = top.device.uuid;
+                    this.deviceId = deviceId;
+
+                    sap.ui.getCore().getModel('printerModel').setProperty("/deviceId", deviceId );
+                
+                       
+                    var that = this;
+
+                var sUrl = this.appModulePath + "/bsxprinterservices" + "/brakesprinters/Printers";
+                $.ajax({
+                    url: sUrl,
+                    type: "GET",
+                    async: false,
+                    //contentType: "application/json",
+                    data: {
+                        $format: 'json'
+                    },
+                    success: function (oData, response) {
+                        var devices = oData.value;
+
+                        var exists;
+                     
+
+                        var i = devices.findIndex(e => e.DeviceID === deviceId);
+                            if (i > -1) {
+                               //that.connectedPrinter = devices[i].PrinterID;
+
+                               sap.ui.getCore().getModel('printerModel').setProperty("/macAddress", devices[i].PrinterID );
+                                //exists = true;
+                            }
+        
+                             else {
+                                 MessageBox.error("Printer not connected. Please exit and connect via Printer connection app.");
+                                 that.getView().byId("dataArea").setBusy(true);
+                             }
+
+                        
+                      //  that.exists = exists;
+
+                       
+                        // if (exists === true){
+                        //     var printer = that.connectedPrinter;
+                           
+                        // }
+                        // else {
+                        //     MessageBox.error("No printer has been connected to this device.")
+                        // }
+
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        BusyIndicator.hide();
+                    
+                    }
+                }, this);
+            }
             },
 
             _onRouteMatched: function (oEvent) {
